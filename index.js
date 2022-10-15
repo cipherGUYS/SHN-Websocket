@@ -16,6 +16,8 @@ io.on('connection',(socket)=>{
         io.emit("chat-message",msg);
     })
 })
-http.listen(process.env.PORT || 3000,()=>{
-    console.log("started server at 3000");
+
+const PORT = process.env.PORT || 3000 
+http.listen(PORT,()=>{
+    console.log("started server at ",PORT);
 })
