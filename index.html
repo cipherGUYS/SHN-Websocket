@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>clipboard</title>
+</head>
+<body>
+    <h1>hello</h1>
+    <div id="messages">
+
+    </div>
+    <form id="form" action="">
+        <input id="textinput" autocomplete="off" /><button>Send</button>
+      </form>
+    
+</body>
+<script src="/socket.io/socket.io.js"></script>  
+<script>
+    var socket =io();
+    socket.emit('user joined','hello')
+    socket.on('user joined',function (props){
+        console.log(props);
+        socket.emit('createroom',10)
+  });
+  var form = document.getElementById("form");
+  var input = document.getElementById("textinput");
+  var messages = document.getElementById("messages")
+  var t2;
+
+  setInterval(async () => {
+  const text = await navigator.clipboard.readText();
+  if(text!=t2){
+    
+  socket.emit('chat-message',text);
+  t2=text;
+  }
+}, 200);
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    if (input.value) {
+      socket.emit('chat-message', input.value);
+      input.value = '';
+    }
+  });
+  socket.on('chat-message',(msg)=>{
+        var li_ = document.createElement('p');
+        li_.textContent= msg;
+        messages.appendChild(li_);
+        window.scrollTo(0,document.body.scrollHeight);
+        
+    })
+</script>
+</html>
