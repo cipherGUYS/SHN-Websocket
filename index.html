@@ -24,6 +24,7 @@
 </body>
 <script src="/socket.io/socket.io.js"></script>  
 <script>
+  var message="  ";
     var socket =io();
     socket.emit('user joined','hello')
     socket.on('user joined',function (props){
@@ -37,7 +38,7 @@
 
   setInterval(async () => {
   const text = await navigator.clipboard.readText();
-  if(text!=t2){
+  if(text!=t2 && text!=message){
     
   socket.emit('chat-message',text);
   t2=text;
@@ -53,6 +54,8 @@
   socket.on('chat-message',(msg)=>{
         var li_ = document.createElement('p');
         li_.textContent= msg;
+        navigator.clipboard.writeText(msg);
+        message=msg;
         messages.appendChild(li_);
         window.scrollTo(0,document.body.scrollHeight);
         
