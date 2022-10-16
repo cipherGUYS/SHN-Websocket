@@ -54,7 +54,9 @@
   socket.on('chat-message',(msg)=>{
         var li_ = document.createElement('p');
         li_.textContent= msg;
-        navigator.clipboard.writeText(msg);
+        setTimeout(async ()=>{
+          await navigator.clipboard.writeText(msg);
+        },2);
         message=msg;
         messages.appendChild(li_);
         window.scrollTo(0,document.body.scrollHeight);
