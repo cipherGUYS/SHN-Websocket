@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Trispace:wght@200&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>copydog</title>
+</head>
+<body id="body">
+    <div style="padding: 10% 0;">
+        <h1 class="heading">copydog.</h1>
+    
+        <div id="jRoom" class="container">
+            
+            <!-- <a id="jback" class="d-none back"><h2  ><-</h2></a> -->
+           
+            <h1 align="center">
+                Join Room
+            </h1>
+            <div id="codeI" align="center" class="d-none"><input style="font-family: Trispace;"type="text" placeholder="Enter the code"></div>
+          
+        </div>
+        <div id="cRoom" class="container">
+            <!-- <a id="cback" class="d-none back"><h2  ><-</h2></a> -->
+            <h1  align="center">
+                Create Room
+            </h1>
+            <div id="ccodeI" align="center" class="d-none"><input type="text" style="font-family: Trispace;"type="text" placeholder="Enter a code"></div>
+          
+          
+        </div>
+        <div align="center"> <a id="back" class="d-none"><h2><-</h2></a></div>
+        <div class="footer">Made with 🤍 by cipherguys</div>
+    </div>
+</body>
+    <script src="/socket.io/socket.io.js"></script>  
+    <script>
+        var socket = io();
+        function createroom(){
+            socket.emit('create-room',10);
+            location.href='/room/10';
+            
+        }
+        function joinroom(){
+            socket.emit('join-room',11);
+            location.href='/joinroom/11';
+            
+        }
+    </script>
+      <script src="/js/main.js"></script>
+
+</html>
