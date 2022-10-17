@@ -1,6 +1,6 @@
 # copydog
 
-copydog is a realtime clipboard sharing app which automaticaly sends the clipboard data to all the clients using socket io <br>
+copydog is a realtime cross platform clipboard syncing app which automaticaly syncs the clipboard data to all the clients using socket io in same room<br>
 ## Live Demo
 We made both an android app and a webapp so that the users can easily view and can share the clipboard data between  seamlessly.<br>
 Web app <a href="https://copydog.herokuapp.com/">live demo</a><br>
