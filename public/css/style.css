@@ -110,4 +110,7 @@
     .footer{
       display: none;
     }
+    .card{
+      max-width : 50%;
+    }
   }
