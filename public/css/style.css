@@ -110,7 +110,8 @@
     .footer{
       display: none;
     }
-    . container{
+    .container{
       max-width : 50%;
+      margin-top: 100px;
     }
   }
