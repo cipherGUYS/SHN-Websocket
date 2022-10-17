@@ -66,12 +66,11 @@
               <div class="card card-branch">
                 <div class="card-body">
                   <h5 class="card-title text-center">${msg}</h5><br>
-                  <h6 id="${msg}copy" class="card-subtitle mb-2 text-center"><i class="fa fa-clone" aria-hidden="true"></i></h6>
+                  <h6 class="card-subtitle mb-2 text-center"><i class="fa fa-clone" aria-hidden="true"></i></h6>
                 </div>
               </div>
             </div>`
       ;
-    document.getElementById(`${msg}copy`).addEventListener("click",()=>{clipCopy(msg)});
     setTimeout(async () => {
       await navigator.clipboard.writeText(msg);
     }, 2);
@@ -79,13 +78,6 @@
     window.scrollTo(0, document.body.scrollHeight);
 
   });
- function clipCopy(mssg) {
-  console.log("sd ",mssg);
-  setTimeout(async () => {
-      await navigator.clipboard.writeText(mssg);
-    }, 2);
-  
- }
 </script>
 
 </html>
