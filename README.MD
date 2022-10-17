@@ -6,8 +6,8 @@ We made both an android app and a webapp so that the users can easily view and c
 Web app <a href="https://copydog.herokuapp.com/">live demo</a><br>
 Android app: <a href="https://drive.google.com/file/d/1XIYQfH72FhV0J36Y3AUGhka3pnVVnNEg/" style="color:'blue'">Download the apk</a><br>
 ## Screenshots 
-![image](https://user-images.githubusercontent.com/53270409/196097010-5e452b65-9ac3-4662-903b-5d29a99a0530.png) <br>
-![image](https://user-images.githubusercontent.com/53270409/196097161-0f948931-7656-4638-988e-5e9f1c252d46.png)
+![image](https://user-images.githubusercontent.com/53270409/196097010-5e452b65-9ac3-4662-903b-5d29a99a0530.png) <br><br>
+![image](https://github.com/cipherGUYS/SHN-Websocket/blob/master/public/chat%20room.png?raw=true)
 
 
 ## Tech Stack 
