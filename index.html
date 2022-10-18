@@ -61,17 +61,23 @@
       input.value = '';
     }
   });
+  function copyToClip(mssg) {
+    console.log(mssg);
+    setTimeout(async () => {
+      await navigator.clipboard.writeText(mssg);
+    }, 2);
+  }
   socket.on('chat-message', (msg) => {
     // li_.innerHTML= `<i class="fa fa-clone" aria-hidden="true"></i>`;
-    messages.innerHTML += `
+    messages.innerHTML = `
             <div class="col">
               <div class="card card-branch">
                 <div class="card-body">
                   <h5 class="card-title text-center">${msg}</h5><br>
-                  <h6 class="card-subtitle mb-2 text-center"><i class="fa fa-clone" aria-hidden="true"></i></h6>
+                  <h6 class="card-subtitle mb-2 text-center" title="copy to clipboard"><a onclick="copyToClip('${msg}')" ><i class="fa fa-clone" aria-hidden="true"></i></a></h6>
                 </div>
               </div>
-            </div>`
+            </div>`+messages.innerHTML;
       ;
     setTimeout(async () => {
       await navigator.clipboard.writeText(msg);
