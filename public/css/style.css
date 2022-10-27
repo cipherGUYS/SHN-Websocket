@@ -5,6 +5,12 @@
       background-color: #ffffff;
       font-family: Trispace;
   }
+  .entry{
+    padding: 10% 0;
+  }
+  .grid{
+    display: flex;
+  }
   input[type=number]{
     width: 100%;
     padding: 6px;
@@ -64,13 +70,19 @@
     background-color: #1609c7ef;
     box-shadow: 0 0 10px #719ECE;
   }
+  .jRoomFlex{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
   .container {
     z-index: -1;
     background-color: white;
     padding: 20px;
     max-width: 900px;
     margin: 0 auto;
-    margin-top: 20px;
+    margin-top: 40px;
     border: 5px solid black;
     box-shadow: 10px 10px 0px #000000;
   }

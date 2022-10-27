@@ -9,7 +9,11 @@ body {
     width: 100%;
     margin-left: 50px;
 }
-
+.topheader{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
 #textinput {
     width: 70vw;
     padding: 10px;

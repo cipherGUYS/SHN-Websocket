@@ -5,25 +5,43 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Trispace:wght@200&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Trispace:wght@200&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/room.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <title>copydog</title>
 </head>
 <body id="body">
-    <div style="padding: 10% 0;">
-        <h1 class="heading">copydog.</h1>
-    
-        <div id="jRoom" class="container">
+    <div  class="entry" style="display:contents;" id="entrylevel">
+        <h1 class="heading" style="margin-top: 100px;margin-bottom: 80px">copydog.</h1>
+        <!-- <div class="jRoomFlex"> -->
+            <div id="jRoom" class="container">
+                
+                <a id="jback" class="d-none back"><h2  ><-</h2></a>
             
-            <!-- <a id="jback" class="d-none back"><h2  ><-</h2></a> -->
-           
-            <h1 align="center">
-                Join Room
-            </h1>
-            <!-- <div id="codeI" align="center" class="d-none"><input style="font-family: Trispace;"type="text" placeholder="Enter the code"></div> -->
-          
-        </div>
+                <h1 align="center">
+                    Join Room
+                </h1>
+                <div id="uuid4" align="center" class="grid d-none">
+                    <div class="row">
+                        <div class="col">
+                            <input style="font-family: Trispace;"type="text" placeholder="Enter the code">
+                        </div>
+                        <div class="col">
+                            <button class="submit"onclick="joinroom()">submit</button>
+                        </div>
+                    </div>
+                </div>
+            
+            </div>
+            <!-- <form>
+                <input style="width:30vh;margin-top:30px;" id="uuid4" placeholder="Enter uid"/>
+            </form> -->
+            
+        <!-- </div> -->
         <div id="cRoom" class="container">
             <!-- <a id="cback" class="d-none back"><h2  ><-</h2></a> -->
             <h1  align="center">
@@ -33,23 +51,104 @@
           
           
         </div>
-        <div align="center"> <a id="back" class="d-none"><h2><-</h2></a></div>
+        <div align="center" id="back" class="d-none"><h2><-</h2></div>
         <div class="footer">Made with 🤍 by cipherguys</div>
+    </div>
+    <div class="chat-window" style="display:none;" id="chatlevel">
+        <div class="topheader">
+            <h1 style="margin-bottom: 20px;">copydog</h1>
+            <h2 id="roomuid" style="margin-right:100px;margin-top:10px;"></h2>
+        </div>
+        <form id="form" action="">
+          <input placeholder="Put your message here!" id="textinput" autocomplete="off" /><button id="sendBtn">Send</button>
+        </form>
+        <div class="cardlist">
+          <div class="grid">
+          <div class="row" id="messages">
+    
+          </div>
+          </div>
+        </div>
     </div>
 </body>
     <script src="/socket.io/socket.io.js"></script>  
     <script>
         var socket = io();
+        var entry =document.getElementById("entrylevel");
+        var chatlev=document.getElementById("chatlevel");
+        var roomuid=document.getElementById("roomuid");
+        var input_uid= document.getElementById('uuid4');
+        console.log(input_uid);
+        var roomuid_storer=0;
+
         function createroom(){
             socket.emit('create-room',10);
-            location.href='/room/10';
-            
+            entry.style.display="none";
+            chatlev.style.display="contents";
+            roomuid.innerText='room id: 10';
         }
+        socket.on("roomid-return",(msg)=>{
+            roomuid.innerText=`${msg}`
+        });
         function joinroom(){
-            socket.emit('join-room',11);
-            location.href='/joinroom/11';
-            
+            socket.emit('join-room',input_uid.value);
+            entry.style.display="none";
+            chatlev.style.display="contents";
+            roomuid.innerText='room id: 11';
+            socket.on("joinroom-error",(msg)=>{
+                alert(msg);
+            })
         }
+        var message = "  ";
+        socket.emit('user joined', 'hello')
+        socket.on('user joined', function (props) {
+            console.log(props);
+        });
+        var form = document.getElementById("form");
+        var input = document.getElementById("textinput");
+        var messages = document.getElementById("messages")
+        var t2;
+
+    setInterval(async () => {
+        const text = await navigator.clipboard.readText();
+        if (text != t2 && text != message) {
+
+        socket.emit('chat-message', text);
+        t2 = text;
+        }
+    }, 200);
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (input.value) {
+        socket.emit('chat-message', input.value);
+        input.value = '';
+        }
+    });
+    function copyToClip(mssg) {
+        console.log(mssg);
+        setTimeout(async () => {
+        await navigator.clipboard.writeText(mssg);
+        }, 2);
+    }
+    socket.on('chat-message', (msg) => {
+        // li_.innerHTML= `<i class="fa fa-clone" aria-hidden="true"></i>`;
+        messages.innerHTML = `
+                <div class="col">
+                <div class="card card-branch">
+                    <div class="card-body">
+                    <h5 class="card-title text-center">${msg}</h5><br>
+                    <h6 class="card-subtitle mb-2 text-center" title="copy to clipboard"><a onclick="copyToClip('${msg}')" ><i class="fa fa-clone" aria-hidden="true"></i></a></h6>
+                    </div>
+                </div>
+                </div>`+messages.innerHTML;
+        ;
+        setTimeout(async () => {
+        await navigator.clipboard.writeText(msg);
+        }, 2);
+        message = msg;
+        window.scrollTo(0, document.body.scrollHeight);
+
+    });
     </script>
       <script src="/js/main.js"></script>
 
