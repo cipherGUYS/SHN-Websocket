@@ -28,7 +28,9 @@ body {
     padding: 10px;
     border: none;
 }
-
+#copy-bttn:hover{
+    font-size: x-large;
+}
 #sendBtn:hover {
     transition: all 0.3s;
     background-color: rgb(0, 93, 93);

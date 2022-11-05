@@ -34,26 +34,36 @@
 </body>
 <script src="/socket.io/socket.io.js"></script>
 <script>
-  var message = "  ";
-  var socket = io();
+  let id = localStorage.getItem("message-id") || 0;
+
+  const socket = io();
+
   socket.emit('user joined', 'hello')
   socket.on('user joined', function (props) {
     console.log(props);
     socket.emit('createroom', 10)
   });
-  var form = document.getElementById("form");
-  var input = document.getElementById("textinput");
-  var messages = document.getElementById("messages")
-  var t2;
 
-  setInterval(async () => {
+  const form = document.getElementById("form");
+  const input = document.getElementById("textinput");
+  const messages = document.getElementById("messages");
+
+  let copied = null;
+
+  async function handleClipboard()
+  {
+    input.focus();
     const text = await navigator.clipboard.readText();
-    if (text != t2 && text != message) {
+    
+    if (text === input.value || text === copied)
+      return;
 
-      socket.emit('chat-message', text);
-      t2 = text;
-    }
-  }, 200);
+    input.value = text;
+  }
+
+  document.addEventListener('copy', handleClipboard);
+  document.addEventListener('mouseenter', handleClipboard, true);
+
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     if (input.value) {
@@ -61,31 +71,49 @@
       input.value = '';
     }
   });
-  function copyToClip(mssg) {
-    console.log(mssg);
-    setTimeout(async () => {
-      await navigator.clipboard.writeText(mssg);
-    }, 2);
+
+  function copyToClip(id) {  
+    copied = localStorage.getItem(id)
+    if(copied)
+      return navigator.clipboard.writeText(copied);
   }
-  socket.on('chat-message', (msg) => {
-    // li_.innerHTML= `<i class="fa fa-clone" aria-hidden="true"></i>`;
-    messages.innerHTML = `
+
+  function createMessage(msg, id)
+  {
+    const p = document.createElement("p");
+    p.innerText = msg; // Message sanitization
+
+    return  `
             <div class="col">
               <div class="card card-branch">
                 <div class="card-body">
-                  <h5 class="card-title text-center">${msg}</h5><br>
-                  <h6 class="card-subtitle mb-2 text-center" title="copy to clipboard"><a onclick="copyToClip('${msg}')" ><i class="fa fa-clone" aria-hidden="true"></i></a></h6>
+                  <h5 class="card-title text-center">${p.innerText}</h5><br>
+                  <h6 class="card-subtitle mb-2 text-center" title="copy to clipboard">
+                    <a id="copy-bttn" onclick="copyToClip(${id})" title="click to copy" ><i class="fa fa-clone" aria-hidden="true"></i></a></h6>
                 </div>
               </div>
-            </div>`+messages.innerHTML;
-      ;
-    setTimeout(async () => {
-      await navigator.clipboard.writeText(msg);
-    }, 2);
-    message = msg;
-    window.scrollTo(0, document.body.scrollHeight);
+            </div>`
+  }
 
+  socket.on('chat-message', (msg) => {
+    localStorage.setItem(id, msg);
+
+    messages.innerHTML = createMessage(msg, id)+messages.innerHTML;
+    
+    localStorage.setItem("message-id", ++id);
+    window.scrollTo(0, document.body.scrollHeight);
   });
+
+  function init(){
+    let msgs = "";
+    for(let i=id-1; i>=0; i--)
+      msgs += createMessage(localStorage.getItem(i), i);
+
+      messages.innerHTML = msgs;
+  }
+
+  init();
+
 </script>
 
 </html>

@@ -21,8 +21,10 @@ io.on('connection',(socket)=>{
         const as_url=msg.match(urlRegex,msg);
         const url=`<a href="${as_url}" style="color:'blue'">${as_url}</a>`;
         msg=msg.replace(as_url,url);
+        console.log("**************new message**************\n")
         console.log(msg);
-                io.emit("chat-message",msg);
+        console.log("\n*********************************************")
+        io.emit("chat-message",msg);
     })
     socket.on('create-room',(id)=>{
        
@@ -52,7 +54,7 @@ io.on('connection',(socket)=>{
 
 })
 
-const PORT = process.env.PORT || 5500
+const PORT = process.env.PORT || 3000
 http.listen(PORT,()=>{
     console.log("started server at ",PORT);
 })
