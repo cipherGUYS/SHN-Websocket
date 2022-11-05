@@ -24,6 +24,5 @@ document.getElementById("back").addEventListener("click",()=>{
     document.getElementById("back").classList.add("d-none");
     console.log("body clicked")
 })
-docume
 console.log("hi");
     
